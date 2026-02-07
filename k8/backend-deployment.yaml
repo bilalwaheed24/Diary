@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: idrak-app
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: idrak-app
+  template:
+    metadata:
+      labels:
+        app: idrak-app
+    spec:
+      nodeSelector:
+        node-role: worker1   # Run backend only on worker1
+      containers:
+        - name: backend
+          image: bilal312/idrak-app:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: diary-secret
+                  key: MONGO_URI
+
+            - name: ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: diary-secret
+                  key: ADMIN_USER
+
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: diary-secret
+                  key: ADMIN_PASSWORD
+
+            - name: EMPLOYEE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: diary-secret
+                  key: EMPLOYEE_USER
+
+            - name: EMPLOYEE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: diary-secret
+                  key: EMPLOYEE_PASSWORD

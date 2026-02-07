@@ -1,0 +1,89 @@
+:root {
+    --bg: #030508;
+    --accent: #00f2ff;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: #e2e8f0;
+}
+
+.gate-wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, #0f172a 0%, #030508 100%);
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+    transition: 0.8s ease-in-out;
+}
+
+.glass-panel {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.login-box { width: 350px; text-align: center; }
+.accent { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+.app-hidden { display: none; }
+
+/* Dashboard Layout */
+.top-bar {
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+}
+
+.portal-grid {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 30px;
+    padding: 40px;
+}
+
+.section-title { font-size: 1.2rem; margin-bottom: 25px; color: var(--accent); border-left: 3px solid var(--accent); padding-left: 15px; }
+
+/* Inputs */
+input, select {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: 10px;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(90deg, #0066ff, #00f2ff);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit-btn:hover { box-shadow: 0 0 20px rgba(0,242,255,0.4); }
+
+/* Table Styling */
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+th { text-align: left; padding: 12px; color: var(--accent); border-bottom: 1px solid var(--border); }
+td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+
+.pulse { height: 10px; width: 10px; background: #4ade80; display: inline-block; border-radius: 50%; box-shadow: 0 0 10px #4ade80; }
+.err-msg { color: #ff4d4d; display: none; margin-top: 10px; font-size: 0.8rem; }

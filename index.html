@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDRAK AI | Enterprise Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="loginOverlay" class="gate-wrapper">
+        <div class="glass-panel login-box">
+            <div class="brand-header">
+                <div class="ai-logo"></div>
+                <h1>IDRAK <span class="accent">AI</span></h1>
+                <p class="subtitle">Neural Core Authentication</p>
+            </div>
+            <div class="auth-fields">
+                <input type="text" id="userIn" placeholder="Terminal ID (empoly)">
+                <input type="password" id="passIn" placeholder="Access Key (empolydata)">
+                <button onclick="checkAuth()" class="glow-btn">Initialize Connection</button>
+            </div>
+            <p id="loginError" class="err-msg">Access Denied: Invalid Credentials</p>
+        </div>
+    </div>
+
+    <main id="mainApp" class="app-hidden">
+        <header class="top-bar">
+            <div class="brand">
+                <span>IDRAK <strong>AI</strong></span>
+            </div>
+            <div class="user-status">
+                <span class="pulse"></span> System: <span class="accent">Secure</span>
+            </div>
+        </header>
+
+        <div class="portal-grid">
+            <section class="form-section">
+                <div class="glass-panel">
+                    <h2 class="section-title">Personnel Onboarding</h2>
+                    <form id="employeeForm">
+                        <div class="input-block">
+                            <label>Full Name</label>
+                            <input type="text" id="empName" placeholder="Enter Full Name" required>
+                        </div>
+
+                        <div class="input-block">
+                            <label>Professional Role</label>
+                            <select id="role" required>
+                                <option value="" disabled selected>Select Designation</option>
+                                <option value="Scrum Master">Scrum Master</option>
+                                <option value="DevOps Engineer">DevOps Engineer</option>
+                                <option value="Junior DevOps Engineer">Junior DevOps Engineer</option>
+                                <option value="Backend Developer">Backend Developer</option>
+                                <option value="Frontend Developer">Frontend Developer</option>
+                                <option value="AI Engineer">AI Engineer</option>
+                                <option value="Team Lead">Team Lead</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="input-block">
+                                <label>Experience (Years)</label>
+                                <input type="number" id="experience" min="0" placeholder="0" required>
+                            </div>
+                            <div class="input-block">
+                                <label>Department</label>
+                                <input type="text" id="dept" placeholder="e.g. Cloud Architecture" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="subBtn">Deploy to Database</button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="data-section">
+                <div class="glass-panel">
+                    <h2 class="section-title">Active Directory</h2>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Emp ID</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Dept</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeeTableBody">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
