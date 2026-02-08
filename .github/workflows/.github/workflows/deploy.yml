@@ -1,0 +1,71 @@
+name: Build, Push Docker Image & Deploy to Kubernetes
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: bilal312/idrak-app
+      NAMESPACE: app
+      HELM_RELEASE: idrak-release
+      HELM_CHART_PATH: ./idrak-chart
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Log in to Docker Hub
+      - name: Docker login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 3. Get version tag from git or default to v1
+      - name: Determine version
+        id: version
+        run: |
+          if git describe --tags --abbrev=0 >/dev/null 2>&1; then
+            LATEST_TAG=$(git describe --tags --abbrev=0)
+            VERSION=$(echo $LATEST_TAG | awk -F. '{print "v"$1+0"."$2+0"."$3+1}')
+          else
+            VERSION="v1"
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Building version $VERSION"
+
+      # 4. Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t $IMAGE_NAME:${{ env.VERSION }} .
+
+      # 5. Push Docker image
+      - name: Push Docker image
+        run: |
+          docker push $IMAGE_NAME:${{ env.VERSION }}
+
+      # 6. Set up kubectl
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: v1.27.3
+
+      # 7. Set up Helm
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.14.0
+
+      # 8. Helm upgrade or install
+      - name: Deploy via Helm
+        run: |
+          helm upgrade --install $HELM_RELEASE $HELM_CHART_PATH \
+            --namespace $NAMESPACE \
+            --create-namespace \
+            --set app.image=$IMAGE_NAME:${{ env.VERSION }}
